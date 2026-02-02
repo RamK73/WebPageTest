@@ -122,3 +122,4 @@ vendor/bin/.phpunit.result.cache
 
 # developer settings
 www/dev.php
+webpagetest-images.tar
