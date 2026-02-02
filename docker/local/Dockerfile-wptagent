@@ -26,8 +26,8 @@ ARG TIMEZONE=UTC
 ARG DEBIAN_FRONTEND=noninteractive
 
 ### UPDATE ###
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt update 
+RUN apt-get update && apt-get install -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - 
 
 ### INSTALL APT-GET LIBS ###
 # set default timezone beforehand to avoid user interaction for tzdata package
@@ -39,7 +39,7 @@ RUN ln -fs /usr/share/zoneinfo/$TIMEZONE /etc/localtime && apt install -y \
     python3-dev libavutil-dev libmp3lame-dev libx264-dev yasm autoconf automake build-essential libass-dev libfreetype6-dev libtheora-dev \
     libtool libvorbis-dev pkg-config texi2html libtext-unidecode-perl python3-numpy python3-scipy perl \
     adb ethtool nodejs cmake git-core libsdl2-dev libva-dev libvdpau-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev texinfo wget \
-    ttf-mscorefonts-installer fonts-noto fonts-roboto fonts-open-sans ffmpeg npm sudo curl xvfb
+    ttf-mscorefonts-installer fonts-noto fonts-roboto fonts-open-sans ffmpeg sudo curl xvfb
 
 # Get WPTAgent for dependecies
 RUN git clone -b master https://github.com/catchpoint/WebPageTest.agent.git /wptagent
