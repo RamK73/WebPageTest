@@ -14,8 +14,8 @@ RUN apt-get update && \
     libjpeg62-turbo-dev \
     libpng-dev \
     libcurl4-openssl-dev \
-    python \
-    python-pillow \
+    python3 \
+    python3-pillow \
     cron \
     beanstalkd \
     supervisor && \
@@ -38,9 +38,13 @@ RUN apt-get install -y libmagickwand-6.q16-dev --no-install-recommends && \
     pecl install imagick && \
     echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini
 
-COPY www /var/www/html
+COPY www /var/www/www
+COPY vendor /var/www/vendor
 
-RUN chown -R www-data:www-data /var/www/html && \
+RUN rm -rf /var/www/html && ln -s /var/www/www /var/www/html
+
+RUN chown -R www-data:www-data /var/www/www && \
+    chown -R www-data:www-data /var/www/vendor && \
     cd /var/www/html && \
     chmod 0777 dat && \
     chmod 0777 -R work && \
