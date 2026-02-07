@@ -2,12 +2,44 @@
 
 This is the official repository for the performance-testing code that runs at [webpagetest.org](https://www.webpagetest.org).
 
+---
+
+## 🚀 Quick Start: Podman Deployment (Windows)
+
+This repository includes a one-click deployment script for Windows users using **Podman**. It sets up a local WebPageTest server and multi-browser agents (Chrome, Firefox, and Edge).
+
+### Prerequisites
+1.  **Podman**: Ensure Podman is installed and the machine is initialized (`podman machine start`).
+2.  **PowerShell**: The script is built for PowerShell.
+
+### Installation & Deployment
+
+1.  **Clone the repository**:
+    ```powershell
+    git clone https://github.com/RamK73/WebPageTest
+    cd WebPageTest
+    ```
+
+2.  **Run the deployment script**:
+    ```powershell
+    .\deploy-wpt.ps1
+    ```
+    *This script will automate the building of images and starting of containers.*
+
+### Accessing the Instance
+- **Web Interface**: [http://localhost](http://localhost)
+- **Results Folder**: Located at `./www/results` (mapped as a persistent volume).
+
+### Monitoring
+- **Server Logs**: `podman logs -f wpt-server`
+- **Agent Logs**: 
+  - `podman logs -f wpt-agent-chrome`
+  - `podman logs -f wpt-agent-firefox`
+  - `podman logs -f wpt-agent-edge`
+
+---
+
 - 🥡 [Install your own instance](https://docs.webpagetest.org/private-instances/)
-- 📕 [Documentation](https://github.com/catchpoint/WebPageTest.docs)
-- 🌐 [Cross-platform browser agent](https://github.com/catchpoint/WebPageTest.agent)
-- 💤 [REST API](https://docs.webpagetest.org/api/) examples:
-  - 🐘 [`/bulktest`](/bulktest/): A PHP command-line tool that can submit a bulk set of tests, gather the results, and aggregate analyses.
-  - 🐍 [`/batchtool`](/batchtool/): A Python tool that can submit a bulk set of tests and gather the results.
 
 ## Troubleshooting private instances
 
