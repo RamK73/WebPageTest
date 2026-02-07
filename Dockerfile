@@ -1,5 +1,5 @@
 FROM php:7.4-apache
-MAINTAINER iteratec WPT Team <wpt@iteratec.de>
+#MAINTAINER iteratec WPT Team <wpt@iteratec.de>
 
 RUN chmod o+r /etc/resolv.conf
 

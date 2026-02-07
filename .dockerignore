@@ -1,1 +1,12 @@
 .git
+*.tar
+*.zip
+*.gz
+node_modules
+www/results/*
+www/logs/*
+www/tmp/*
+www/work/jobs/*
+www/work/video/*
+www/work/reorder/*
+www/dat/*

@@ -54,6 +54,16 @@ RUN npm install -g lighthouse
 RUN curl -o /tmp/google-chrome-stable_current_amd64.deb  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt install -y /tmp/google-chrome-stable_current_amd64.deb && rm /tmp/google-chrome-stable_current_amd64.deb
 
+### INSTALLING FIREFOX BROWSER ###
+RUN apt-get update && apt-get install -y firefox
+
+### INSTALLING EDGE BROWSER ###
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+    install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && \
+    sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list' && \
+    rm microsoft.gpg && \
+    apt-get update && apt-get install -y microsoft-edge-stable
+
 ### UPGRADING PIP AND INSTALLING REQUIRED PACKAGES ###
 RUN python3 -m pip install --upgrade --user pip && \
     python3 -m pip install --user -r /wptagent/.github/workflows/requirements.txt 

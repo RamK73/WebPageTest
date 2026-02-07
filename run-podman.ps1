@@ -12,13 +12,14 @@ if ($existing) {
     Write-Host "Found existing container. Stopping and removing..." -ForegroundColor Yellow
     podman stop $ContainerName
     podman rm $ContainerName
-} else {
+}
+else {
     Write-Host "No existing container found."
 }
 
 # 2. Build the image
-Write-Host "`n[2/3] Building Podman image '$ImageName'..." -ForegroundColor Cyan
-podman build -t $ImageName .
+Write-Host "`n[2/3] Building Podman image '$ImageName' (no-cache)..." -ForegroundColor Cyan
+podman build --no-cache -t $ImageName .
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "`nError: Build failed!" -ForegroundColor Red
@@ -27,13 +28,23 @@ if ($LASTEXITCODE -ne 0) {
 
 # 3. Run the container
 Write-Host "`n[3/3] Running container '$ContainerName'..." -ForegroundColor Cyan
-podman run -d --name $ContainerName -p 80:80 -p 443:443 $ImageName
+$ProjectDir = (Get-Item .).FullName.Replace("\", "/")
+
+# We use --restart unless-stopped for permanency
+# We mount results for persistence, while settings are baked into the image for reliability
+podman run -d `
+    --name $ContainerName `
+    --restart unless-stopped `
+    -p 80:80 -p 443:443 `
+    -v "${ProjectDir}/www/results:/var/www/www/results" `
+    $ImageName
 
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "`nSuccess! WebPageTest is now starting up." -ForegroundColor Green
+    Write-Host "`nSuccess! WebPageTest Server is now permanent and starting up." -ForegroundColor Green
     Write-Host "Access it at: http://localhost" -ForegroundColor Green
     Write-Host "`nTo view logs: podman logs -f $ContainerName" -ForegroundColor Gray
-} else {
+}
+else {
     Write-Host "`nError: Failed to start container!" -ForegroundColor Red
     exit $LASTEXITCODE
 }
